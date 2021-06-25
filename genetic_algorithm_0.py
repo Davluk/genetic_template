@@ -1,5 +1,5 @@
 import math
-from src.EvolutiveAlgorithm import EvolutiveAlgorithm
+from EvolutiveAlgorithm import EvolutiveAlgorithm
 
 from numpy import arange
 from numpy import exp

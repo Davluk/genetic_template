@@ -1,4 +1,4 @@
-from src.EvolutiveAlgorithm import EvolutiveAlgorithm
+from EvolutiveAlgorithm import EvolutiveAlgorithm
 import math
 import matplotlib.pyplot as plt
 
@@ -22,10 +22,10 @@ evol.data = [0,1,2,3,4]
 
 @evol.set_fitness
 def fitness(x,data):
-    return math.sin(10*x[0])*(20-(x[0]-5)**2)
-    # return (20-(x[0]-5)**2)
+    # return math.sin(10*x[0])*(20-(x[0]-5)**2)
+    return (20-(x[0]-5)**2)
 
-# @evol.add_func_to_pipeline
+@evol.add_func_to_pipeline
 @evol.map_process
 def selection(population):
     parent1 = random.randint(0,len(population)-1)
@@ -38,7 +38,7 @@ def selection(population):
         new_ind= population[parent1]["ind"]
     return new_ind
 
-# @evol.add_func_to_pipeline
+@evol.add_func_to_pipeline
 @evol.map_process
 def crossover(population):
     parent1 = random.randint(0,len(population)-1)
