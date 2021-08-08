@@ -69,7 +69,7 @@ class EvolutiveAlgorithm:
                 self.best_last = temp_best_fitness
                 if(compare(temp_best_fitness,self.best_all)):
                     self.best_all=self.best_last
-                self.fitness_evolution.append( (generation+func_index/len(self.pipeline),self.best_last['fit'] ) )
-                # self.fitness_evolution.append( (self.best_last["ind"],self.best_last['fit'] ) )
+                # self.fitness_evolution.append( (generation+func_index/len(self.pipeline),self.best_last['fit'] ) )
+                self.fitness_evolution.append( (self.best_last["ind"],self.best_last['fit'] ) )
 
        

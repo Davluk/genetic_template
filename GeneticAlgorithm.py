@@ -7,13 +7,13 @@ from datetime import datetime
 random.seed(datetime.now())
 
 
-POPULATION_SIZE = 10
-GENERATIONS     = 1000
+POPULATION_SIZE = 400
+GENERATIONS     = 170
 
-SELECTION_RATE = 0.2
-CROSSOVER_RATE = 0.2
-MUTATION_RATE = 0.2
-MUTATION_HILLCLIMBING_RATE=0.9
+SELECTION_RATE = 0.1
+CROSSOVER_RATE = 0.1
+MUTATION_RATE = 0.1
+MUTATION_HILLCLIMBING_RATE=0.1
 
 MAXIMIZE = True
 
@@ -22,23 +22,25 @@ evol.data = [0,1,2,3,4]
 
 @evol.set_fitness
 def fitness(x,data):
-    return math.sin(10*x[0])*(20-(x[0]-5)**2)
+    return math.sin(50*x[0])*(20-(x[0]-5)**2)## VAR
     # return (20-(x[0]-5)**2)
 
-# @evol.add_func_to_pipeline
+@evol.add_func_to_pipeline
 @evol.map_process
 def selection(population):
     parent1 = random.randint(0,len(population)-1)
     if random.random()<SELECTION_RATE:
+        """VARIABLE pop"""
         parent2 = random.randint(0,len(population)-1)
         parent1 = population[parent1]
         parent2 = population[parent2]
         new_ind= parent1["ind"] if evol.compare(parent1,parent2) else parent2["ind"]
+        """VARIABLE pop"""
     else:
         new_ind= population[parent1]["ind"]
     return new_ind
 
-# @evol.add_func_to_pipeline
+@evol.add_func_to_pipeline
 @evol.map_process
 def crossover(population):
     parent1 = random.randint(0,len(population)-1)
@@ -70,7 +72,7 @@ def mutation(population):
             # dir_vect = [temp_best['ind'][0]-population[parent1]['ind'][0],temp_best['ind'][1]-population[parent1]['ind'][1]] 
             dir_vect = [temp_best['ind'][0]-population[parent1]['ind'][0]] 
             dir_mod = 1 if evol.compare(temp_best,population[parent1]) else -1
-            dir_vect=[i*dir_mod for i in dir_vect]
+            dir_vect=[i*dir_mod*random.random() for i in dir_vect]
         else:
             mod = random.random()     
             dir_vect.append((0.5 if random.random()>0.5 else -0.5)*mod)
@@ -87,7 +89,7 @@ def new_ind():
     return {"ind":[random.random()*10],"fit":0}
 
 if __name__=='__main__':
-    evol.run( generations=GENERATIONS)
+    evol.run(generations=GENERATIONS)
     print(evol.best_all)
     print(evol.best_last)
 
