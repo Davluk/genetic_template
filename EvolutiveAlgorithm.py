@@ -23,7 +23,7 @@ class EvolutiveAlgorithm:
         """
         @wraps(function)
         def wrapper(*argv, **kwargv):
-            _population = [function(*argv,**kwargv) for ind in range(self.population_size)]
+            _population = function(*argv,**kwargv)
             return [{"fit":self.fitness(_ind,self.data),"ind":_ind} for _ind in _population]
         return wrapper
 

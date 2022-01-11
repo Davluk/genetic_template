@@ -26,7 +26,7 @@ MUTATION_HILLCLIMBING_RATE=0.1
 
 MAXIMIZE = True
 
-evol = EvolutiveAlgorithm( POPULATION_SIZE )
+evol = EvolutiveAlgorithm( POPULATION_SIZE, MAXIMIZE )
 evol.data = [0,1,2,3,4]
 
 @evol.set_fitness
@@ -37,8 +37,8 @@ def fitness(x,data):
     # return math.sin(10*x[0])*(20-(x[0]-5)**2)
     return (20-(x[0]-5)**2)
 
-# @evol.add_func_to_pipeline
-@evol.eval_fitness
+@evol.add_func_to_pipeline
+@evol.map_process
 def selection(population):
     compare = lambda a,b:a>b if MAXIMIZE else lambda a,b:a<b
     new_population=[]
@@ -54,7 +54,7 @@ def selection(population):
     return new_population
 
 @evol.add_func_to_pipeline
-@evol.eval_fitness
+@evol.map_process
 def crossover(population):
     new_population=[]
     compare_list = max if MAXIMIZE else min
@@ -78,8 +78,8 @@ def crossover(population):
             new_population.append( population[parent1]["ind"] )
     return new_population
 
-# @evol.add_func_to_pipeline
-@evol.eval_fitness
+@evol.add_func_to_pipeline
+@evol.map_process
 def mutation(population):
     new_population=[]
     compare_list = max if MAXIMIZE else min
@@ -112,7 +112,7 @@ def new_ind():
     return {"ind":[random.random()*10],"fit":0}
 
 
-evol.run( generations=GENERATIONS, maximize=MAXIMIZE)
+evol.run( generations=GENERATIONS )
 print(evol.best_all)
 print(evol.best_last)
 
